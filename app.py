@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 import util
+import os  # Add this to handle environment variables
 
 app = Flask(__name__)
 
@@ -38,4 +39,7 @@ def predict_home_price():
 if __name__ == "__main__":
     print("Starting Python Flask Server For Home Price Prediction...")
     util.load_saved_artifacts()
-    app.run(debug=True)
+
+    # Fix for Render: Bind to 0.0.0.0 and use the correct port
+    port = int(os.environ.get("PORT", 10000))  # Use Render's PORT
+    app.run(host="0.0.0.0", port=port, debug=True)
